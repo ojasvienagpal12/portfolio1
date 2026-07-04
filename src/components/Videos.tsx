@@ -2,55 +2,72 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
-import { Play, Sparkles, MapPin, Utensils, Bot } from "lucide-react";
+import { useRef, useState } from "react";
+import { Play, Sparkles, MapPin, Utensils, Bot, ChevronLeft, ChevronRight, Grid, X } from "lucide-react";
 
 const videos = [
   {
     title: "AI Video - Life Care",
-    description: "AI-powered promotional video showcasing healthcare services",
+    description: "AI-powered promotional video showcasing healthcare services with stunning visuals",
     src: "/videos/lifecare o bhai itni safai Ai Video.mp4",
     category: "AI Video",
     icon: Bot,
     color: "from-purple-500 to-pink-500",
+    featured: true,
   },
   {
     title: "Jind City Airport",
-    description: "Cinematic video of Jind city and airport views",
+    description: "Cinematic aerial video of Jind city and airport views",
     src: "/videos/jind city jind airport.mp4",
     category: "City Video",
     icon: MapPin,
     color: "from-cyan-500 to-blue-500",
+    featured: true,
   },
   {
     title: "Jind City Rainfall",
-    description: "Beautiful rainfall moments captured in Jind city",
+    description: "Beautiful monsoon moments captured in Jind city",
     src: "/videos/Jind city Rainfall(1).mp4",
     category: "City Video",
     icon: MapPin,
     color: "from-blue-500 to-indigo-500",
+    featured: false,
   },
   {
     title: "Jindal Chips Store",
-    description: "Promotional video for local food business",
+    description: "Engaging promotional video for local food business",
     src: "/videos/jindal chips store namste mm hu.mp4",
     category: "Food & Restaurant",
     icon: Utensils,
     color: "from-orange-500 to-red-500",
+    featured: false,
   },
   {
     title: "Mango Promo Video",
-    description: "Creative mango promotional content",
+    description: "Creative mango promotional content with vibrant colors",
     src: "/videos/MANGO VIDEO.mp4",
     category: "Food & Restaurant",
     icon: Utensils,
     color: "from-yellow-500 to-orange-500",
+    featured: false,
   },
 ];
 
 export default function Videos() {
   const ref = useRef(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [showAll, setShowAll] = useState(false);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
     <section
@@ -64,17 +81,23 @@ export default function Videos() {
         animate={{ x: [0, 30, 0], y: [0, -30, 0] }}
         transition={{ duration: 12, repeat: Infinity }}
       />
+      <motion.div
+        className="absolute right-0 bottom-20 w-80 h-80 bg-pink-600 blob opacity-20"
+        animate={{ x: [0, -20, 0], y: [0, 20, 0] }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 glass px-4 py-2 rounded-full mb-6">
             <Sparkles className="text-purple-400" size={18} />
             <span className="text-purple-300 font-medium">Video Portfolio</span>
+            <Play className="text-pink-400" size={18} />
           </div>
           <h2 className="text-5xl md:text-6xl font-bold mb-2 text-white">MY</h2>
           <h3 className="text-5xl md:text-6xl font-bold gradient-text-glow mb-4">
@@ -85,48 +108,154 @@ export default function Videos() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {videos.map((video, index) => (
-            <motion.div
-              key={video.title}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass rounded-2xl overflow-hidden card-hover group"
-            >
-              {/* Video */}
-              <div className="relative aspect-video bg-black">
-                <video
-                  src={video.src}
-                  className="w-full h-full object-cover"
-                  controls
-                  preload="metadata"
-                  playsInline
-                />
-                {/* Play overlay */}
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                  <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${video.color} flex items-center justify-center`}>
-                    <Play className="text-white ml-1" size={28} fill="white" />
+        {/* Horizontal Scroll Section */}
+        <div className="relative mb-8">
+          {/* Scroll Buttons */}
+          <button
+            onClick={() => scroll("left")}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform -ml-4"
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            onClick={() => scroll("right")}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform -mr-4"
+          >
+            <ChevronRight size={24} />
+          </button>
+
+          {/* Scrollable Container */}
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-auto pb-4 px-4 scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
+            {videos.map((video, index) => (
+              <motion.div
+                key={video.title}
+                initial={{ opacity: 0, x: 50 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="flex-shrink-0 w-80 md:w-96 glass rounded-2xl overflow-hidden card-hover group"
+              >
+                {/* Video */}
+                <div className="relative aspect-video bg-black">
+                  <video
+                    src={video.src}
+                    className="w-full h-full object-cover"
+                    controls
+                    preload="metadata"
+                    playsInline
+                  />
+                  {/* Category Badge */}
+                  <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
+                    <video.icon size={12} />
+                    {video.category}
                   </div>
+                  {video.featured && (
+                    <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-yellow-500 text-black text-xs font-bold">
+                      Featured
+                    </div>
+                  )}
                 </div>
+
+                {/* Info */}
+                <div className="p-5">
+                  <h4 className="text-white font-bold text-lg mb-2">{video.title}</h4>
+                  <p className="text-gray-400 text-sm line-clamp-2">{video.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* More Videos Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="text-center"
+        >
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="btn-primary text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 mx-auto"
+          >
+            <Grid size={20} />
+            {showAll ? "Hide Videos" : "View All Videos"}
+          </button>
+        </motion.div>
+
+        {/* All Videos Grid Modal */}
+        {showAll && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg overflow-y-auto py-10"
+          >
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-3xl font-bold text-white">All Videos</h3>
+                <button
+                  onClick={() => setShowAll(false)}
+                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+                >
+                  <X size={24} />
+                </button>
               </div>
 
-              {/* Info */}
-              <div className="p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`w-8 h-8 rounded-lg bg-gradient-to-r ${video.color} flex items-center justify-center`}>
-                    <video.icon className="text-white" size={16} />
-                  </div>
-                  <span className={`text-sm font-medium bg-gradient-to-r ${video.color} bg-clip-text text-transparent`}>
-                    {video.category}
-                  </span>
-                </div>
-                <h4 className="text-white font-bold text-lg mb-2">{video.title}</h4>
-                <p className="text-gray-400 text-sm">{video.description}</p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {videos.map((video, index) => (
+                  <motion.div
+                    key={video.title}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="glass rounded-2xl overflow-hidden"
+                  >
+                    <div className="relative aspect-video bg-black">
+                      <video
+                        src={video.src}
+                        className="w-full h-full object-cover"
+                        controls
+                        preload="metadata"
+                        playsInline
+                      />
+                      <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
+                        <video.icon size={12} />
+                        {video.category}
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h4 className="text-white font-bold mb-1">{video.title}</h4>
+                      <p className="text-gray-400 text-sm">{video.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Video Stats */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-16 grid grid-cols-3 gap-4"
+        >
+          {[
+            { value: "5+", label: "Videos", color: "from-purple-500 to-pink-500" },
+            { value: "AI", label: "Powered", color: "from-pink-500 to-red-500" },
+            { value: "4K", label: "Quality", color: "from-cyan-500 to-blue-500" },
+          ].map((item, index) => (
+            <div key={item.label} className="glass rounded-2xl p-4 text-center">
+              <h4 className={`text-3xl md:text-4xl font-black bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                {item.value}
+              </h4>
+              <p className="text-gray-400 text-sm">{item.label}</p>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -3,17 +3,57 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { TrendingUp, Users, Eye, Building2, ArrowUpRight } from "lucide-react";
+import { TrendingUp, Users, Eye, Instagram, ExternalLink } from "lucide-react";
 
 const clients = [
-  { name: "The Tap Social", industry: "Digital Marketing", color: "from-purple-500 to-pink-500" },
-  { name: "Rajmahal", industry: "Events & Banquet", color: "from-pink-500 to-red-500" },
-  { name: "Life Care ENT", industry: "Healthcare", color: "from-red-500 to-orange-500" },
-  { name: "JIET College", industry: "Education", color: "from-orange-500 to-yellow-500" },
-  { name: "Umrao", industry: "Hotel & Restaurant", color: "from-green-500 to-teal-500" },
-  { name: "Hunger Hub", industry: "Restaurant", color: "from-teal-500 to-cyan-500" },
-  { name: "Veg Spoon", industry: "Restaurant", color: "from-cyan-500 to-blue-500" },
-  { name: "Astro Vastu", industry: "Astrology", color: "from-blue-500 to-indigo-500" },
+  {
+    name: "JIET Jind",
+    industry: "Education",
+    color: "from-purple-500 to-pink-500",
+    instagram: "https://www.instagram.com/jiet_jind"
+  },
+  {
+    name: "Astro Vastu Kunj Bihari",
+    industry: "Astrology & Vastu",
+    color: "from-pink-500 to-red-500",
+    instagram: "https://www.instagram.com/astro_vastu_kunjbihari"
+  },
+  {
+    name: "The Tap Studio",
+    industry: "Digital Marketing",
+    color: "from-red-500 to-orange-500",
+    instagram: "https://www.instagram.com/thetap_studio"
+  },
+  {
+    name: "Rajmahal Jind",
+    industry: "Events & Banquet",
+    color: "from-orange-500 to-yellow-500",
+    instagram: "https://www.instagram.com/rajmahal_jind"
+  },
+  {
+    name: "Life Care ENT",
+    industry: "Healthcare",
+    color: "from-green-500 to-teal-500",
+    instagram: "https://www.instagram.com/lifecareent_jind"
+  },
+  {
+    name: "Umrao Inn",
+    industry: "Hotel & Restaurant",
+    color: "from-teal-500 to-cyan-500",
+    instagram: "https://www.instagram.com/umrao_inn"
+  },
+  {
+    name: "JP Gold Jind",
+    industry: "Jewellery",
+    color: "from-yellow-500 to-amber-500",
+    instagram: "https://www.instagram.com/jp_gold_jind"
+  },
+  {
+    name: "Hunger Hub",
+    industry: "Restaurant",
+    color: "from-cyan-500 to-blue-500",
+    instagram: null
+  },
 ];
 
 const stats = [
@@ -84,7 +124,7 @@ export default function Projects() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-gray-400 line-through">{stat.value}</span>
-                      <ArrowUpRight className="text-green-400" size={16} />
+                      <span className="text-green-400">→</span>
                       <span className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
                         {stat.newValue}
                       </span>
@@ -97,13 +137,14 @@ export default function Projects() {
           </div>
         </motion.div>
 
-        {/* Clients Grid */}
+        {/* Clients Grid with Instagram Links */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <h4 className="text-2xl font-bold mb-8 text-center text-white">
+          <h4 className="text-2xl font-bold mb-8 text-center text-white flex items-center justify-center gap-3">
+            <Instagram className="text-pink-500" size={28} />
             Brands I&apos;ve Worked With
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -113,15 +154,36 @@ export default function Projects() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ duration: 0.4, delay: 0.4 + index * 0.05 }}
-                className="glass rounded-xl p-4 card-hover group"
               >
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${client.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                  <Building2 className="text-white" size={20} />
-                </div>
-                <h5 className="font-bold text-white">{client.name}</h5>
-                <p className={`text-sm bg-gradient-to-r ${client.color} bg-clip-text text-transparent`}>
-                  {client.industry}
-                </p>
+                {client.instagram ? (
+                  <a
+                    href={client.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block glass rounded-xl p-4 card-hover group"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${client.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                        <Instagram className="text-white" size={20} />
+                      </div>
+                      <ExternalLink className="text-gray-500 group-hover:text-white transition-colors" size={16} />
+                    </div>
+                    <h5 className="font-bold text-white">{client.name}</h5>
+                    <p className={`text-sm bg-gradient-to-r ${client.color} bg-clip-text text-transparent`}>
+                      {client.industry}
+                    </p>
+                  </a>
+                ) : (
+                  <div className="glass rounded-xl p-4 card-hover group">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${client.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                      <Instagram className="text-white" size={20} />
+                    </div>
+                    <h5 className="font-bold text-white">{client.name}</h5>
+                    <p className={`text-sm bg-gradient-to-r ${client.color} bg-clip-text text-transparent`}>
+                      {client.industry}
+                    </p>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
