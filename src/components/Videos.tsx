@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
-import { Play, Sparkles, MapPin, Utensils, Bot, ChevronLeft, ChevronRight, Grid, X } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Play, Sparkles, MapPin, Utensils, Bot, ChevronLeft, ChevronRight, Grid, X, ArrowLeft } from "lucide-react";
 
 const videos = [
   {
@@ -59,6 +59,23 @@ export default function Videos() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [showAll, setShowAll] = useState(false);
 
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowAll(false);
+    };
+
+    if (showAll) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [showAll]);
+
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const scrollAmount = 400;
@@ -67,6 +84,10 @@ export default function Videos() {
         behavior: "smooth",
       });
     }
+  };
+
+  const closeModal = () => {
+    setShowAll(false);
   };
 
   return (
@@ -177,64 +198,92 @@ export default function Videos() {
           className="text-center"
         >
           <button
-            onClick={() => setShowAll(!showAll)}
+            onClick={() => setShowAll(true)}
             className="btn-primary text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 mx-auto"
           >
             <Grid size={20} />
-            {showAll ? "Hide Videos" : "View All Videos"}
+            View All Videos
           </button>
         </motion.div>
 
         {/* All Videos Grid Modal */}
-        {showAll && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg overflow-y-auto py-10"
-          >
-            <div className="max-w-7xl mx-auto px-4">
-              <div className="flex items-center justify-between mb-8">
-                <h3 className="text-3xl font-bold text-white">All Videos</h3>
-                <button
-                  onClick={() => setShowAll(false)}
-                  className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
-                >
-                  <X size={24} />
-                </button>
+        <AnimatePresence>
+          {showAll && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-black/95 backdrop-blur-lg overflow-y-auto"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) closeModal();
+              }}
+            >
+              {/* Fixed Header */}
+              <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-md border-b border-white/10">
+                <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+                  <button
+                    onClick={closeModal}
+                    className="flex items-center gap-2 text-white hover:text-purple-400 transition-colors font-semibold"
+                  >
+                    <ArrowLeft size={24} />
+                    <span>Back to Portfolio</span>
+                  </button>
+                  <h3 className="text-2xl font-bold text-white">All Videos</h3>
+                  <button
+                    onClick={closeModal}
+                    className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center text-white hover:scale-110 transition-transform"
+                  >
+                    <X size={24} />
+                  </button>
+                </div>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {videos.map((video, index) => (
-                  <motion.div
-                    key={video.title}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="glass rounded-2xl overflow-hidden"
-                  >
-                    <div className="relative aspect-video bg-black">
-                      <video
-                        src={video.src}
-                        className="w-full h-full object-cover"
-                        controls
-                        preload="metadata"
-                        playsInline
-                      />
-                      <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
-                        <video.icon size={12} />
-                        {video.category}
+              {/* Videos Grid */}
+              <div className="max-w-7xl mx-auto px-4 py-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {videos.map((video, index) => (
+                    <motion.div
+                      key={video.title}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="glass rounded-2xl overflow-hidden card-hover"
+                    >
+                      <div className="relative aspect-video bg-black">
+                        <video
+                          src={video.src}
+                          className="w-full h-full object-cover"
+                          controls
+                          preload="metadata"
+                          playsInline
+                        />
+                        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
+                          <video.icon size={12} />
+                          {video.category}
+                        </div>
                       </div>
-                    </div>
-                    <div className="p-4">
-                      <h4 className="text-white font-bold mb-1">{video.title}</h4>
-                      <p className="text-gray-400 text-sm">{video.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="p-4">
+                        <h4 className="text-white font-bold mb-1">{video.title}</h4>
+                        <p className="text-gray-400 text-sm">{video.description}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Close Button at Bottom */}
+                <div className="text-center mt-10">
+                  <button
+                    onClick={closeModal}
+                    className="btn-outline text-white px-8 py-4 rounded-full font-semibold flex items-center gap-2 mx-auto"
+                  >
+                    <ArrowLeft size={20} />
+                    Back to Portfolio
+                  </button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Video Stats */}
         <motion.div
