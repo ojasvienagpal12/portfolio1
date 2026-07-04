@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { TrendingUp, Users, Eye, Instagram, ExternalLink } from "lucide-react";
+import { TrendingUp, Users, Eye, Camera, ExternalLink } from "lucide-react";
 
 const clients = [
   {
@@ -144,7 +144,7 @@ export default function Projects() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <h4 className="text-2xl font-bold mb-8 text-center text-white flex items-center justify-center gap-3">
-            <Instagram className="text-pink-500" size={28} />
+            <Camera className="text-pink-500" size={28} />
             Brands I&apos;ve Worked With
           </h4>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -164,7 +164,7 @@ export default function Projects() {
                   >
                     <div className="flex items-center justify-between mb-3">
                       <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${client.color} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        <Instagram className="text-white" size={20} />
+                        <Camera className="text-white" size={20} />
                       </div>
                       <ExternalLink className="text-gray-500 group-hover:text-white transition-colors" size={16} />
                     </div>
@@ -176,7 +176,7 @@ export default function Projects() {
                 ) : (
                   <div className="glass rounded-xl p-4 card-hover group">
                     <div className={`w-10 h-10 rounded-lg bg-gradient-to-r ${client.color} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                      <Instagram className="text-white" size={20} />
+                      <Camera className="text-white" size={20} />
                     </div>
                     <h5 className="font-bold text-white">{client.name}</h5>
                     <p className={`text-sm bg-gradient-to-r ${client.color} bg-clip-text text-transparent`}>
