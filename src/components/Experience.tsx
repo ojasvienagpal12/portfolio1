@@ -19,18 +19,6 @@ const experiences = [
     ],
   },
   {
-    period: "Jun 2025 - Jul 2025",
-    company: "Galaxy Food Planet",
-    position: "Social Media Manager",
-    color: "from-pink-500 to-red-500",
-    highlights: [
-      "Managed social media platforms",
-      "Designed promotional creatives",
-      "Grew followers from 2402 to 2457",
-      "Increased views from 72.8K to 101.3K",
-    ],
-  },
-  {
     period: "Feb 2025 - Mar 2025",
     company: "MERI Institute",
     position: "Digital Marketing Intern",

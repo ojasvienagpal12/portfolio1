@@ -3,53 +3,37 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Play, Sparkles, MapPin, Utensils, Bot, ChevronLeft, ChevronRight, Grid, X, ArrowLeft } from "lucide-react";
+import { Play, Sparkles, Video as VideoIcon, ChevronLeft, ChevronRight, Grid, X, ArrowLeft } from "lucide-react";
 
+// Placeholder videos - User will add real videos later
 const videos = [
   {
-    title: "AI Video - Life Care",
-    description: "AI-powered promotional video showcasing healthcare services with stunning visuals",
-    src: "/videos/lifecare o bhai itni safai Ai Video.mp4",
-    category: "AI Video",
-    icon: Bot,
+    title: "Video 1",
+    description: "Video description will be added here",
+    src: "/videos/video1.mp4",
+    category: "Video",
     color: "from-purple-500 to-pink-500",
-    featured: true,
   },
   {
-    title: "Jind City Airport",
-    description: "Cinematic aerial video of Jind city and airport views",
-    src: "/videos/jind city jind airport.mp4",
-    category: "City Video",
-    icon: MapPin,
+    title: "Video 2",
+    description: "Video description will be added here",
+    src: "/videos/video2.mp4",
+    category: "Video",
+    color: "from-pink-500 to-red-500",
+  },
+  {
+    title: "Video 3",
+    description: "Video description will be added here",
+    src: "/videos/video3.mp4",
+    category: "Video",
     color: "from-cyan-500 to-blue-500",
-    featured: true,
   },
   {
-    title: "Jind City Rainfall",
-    description: "Beautiful monsoon moments captured in Jind city",
-    src: "/videos/Jind city Rainfall(1).mp4",
-    category: "City Video",
-    icon: MapPin,
-    color: "from-blue-500 to-indigo-500",
-    featured: false,
-  },
-  {
-    title: "Jindal Chips Store",
-    description: "Engaging promotional video for local food business",
-    src: "/videos/jindal chips store namste mm hu.mp4",
-    category: "Food & Restaurant",
-    icon: Utensils,
-    color: "from-orange-500 to-red-500",
-    featured: false,
-  },
-  {
-    title: "Mango Promo Video",
-    description: "Creative mango promotional content with vibrant colors",
-    src: "/videos/MANGO VIDEO.mp4",
-    category: "Food & Restaurant",
-    icon: Utensils,
-    color: "from-yellow-500 to-orange-500",
-    featured: false,
+    title: "Video 4",
+    description: "Video description will be added here",
+    src: "/videos/video4.mp4",
+    category: "Video",
+    color: "from-orange-500 to-yellow-500",
   },
 ];
 
@@ -125,7 +109,7 @@ export default function Videos() {
             VIDEOS
           </h3>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto">
-            Creative video content including AI-generated videos, city coverage & promotional content
+            Creative video content including reels, promos & promotional content
           </p>
         </motion.div>
 
@@ -159,25 +143,17 @@ export default function Videos() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="flex-shrink-0 w-80 md:w-96 glass rounded-2xl overflow-hidden card-hover group"
               >
-                {/* Video */}
-                <div className="relative aspect-video bg-black">
-                  <video
-                    src={video.src}
-                    className="w-full h-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                  />
+                {/* Video Placeholder */}
+                <div className={`relative aspect-video bg-gradient-to-br ${video.color} flex items-center justify-center`}>
+                  <div className="text-center text-white">
+                    <VideoIcon size={48} className="mx-auto mb-2" />
+                    <p className="font-bold">Video Coming Soon</p>
+                  </div>
                   {/* Category Badge */}
-                  <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
-                    <video.icon size={12} />
+                  <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-black/50 text-white text-xs font-bold flex items-center gap-1`}>
+                    <VideoIcon size={12} />
                     {video.category}
                   </div>
-                  {video.featured && (
-                    <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-yellow-500 text-black text-xs font-bold">
-                      Featured
-                    </div>
-                  )}
                 </div>
 
                 {/* Info */}
@@ -240,7 +216,7 @@ export default function Videos() {
 
               {/* Videos Grid */}
               <div className="max-w-7xl mx-auto px-4 py-8">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid md:grid-cols-2 gap-6">
                   {videos.map((video, index) => (
                     <motion.div
                       key={video.title}
@@ -249,16 +225,13 @@ export default function Videos() {
                       transition={{ duration: 0.3, delay: index * 0.1 }}
                       className="glass rounded-2xl overflow-hidden card-hover"
                     >
-                      <div className="relative aspect-video bg-black">
-                        <video
-                          src={video.src}
-                          className="w-full h-full object-cover"
-                          controls
-                          preload="metadata"
-                          playsInline
-                        />
-                        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-gradient-to-r ${video.color} text-white text-xs font-bold flex items-center gap-1`}>
-                          <video.icon size={12} />
+                      <div className={`relative aspect-video bg-gradient-to-br ${video.color} flex items-center justify-center`}>
+                        <div className="text-center text-white">
+                          <VideoIcon size={48} className="mx-auto mb-2" />
+                          <p className="font-bold">Video Coming Soon</p>
+                        </div>
+                        <div className={`absolute top-3 left-3 px-3 py-1 rounded-full bg-black/50 text-white text-xs font-bold flex items-center gap-1`}>
+                          <VideoIcon size={12} />
                           {video.category}
                         </div>
                       </div>
@@ -293,10 +266,10 @@ export default function Videos() {
           className="mt-16 grid grid-cols-3 gap-4"
         >
           {[
-            { value: "5+", label: "Videos", color: "from-purple-500 to-pink-500" },
-            { value: "AI", label: "Powered", color: "from-pink-500 to-red-500" },
-            { value: "4K", label: "Quality", color: "from-cyan-500 to-blue-500" },
-          ].map((item, index) => (
+            { value: "4", label: "Videos", color: "from-purple-500 to-pink-500" },
+            { value: "HD", label: "Quality", color: "from-pink-500 to-red-500" },
+            { value: "Pro", label: "Editing", color: "from-cyan-500 to-blue-500" },
+          ].map((item) => (
             <div key={item.label} className="glass rounded-2xl p-4 text-center">
               <h4 className={`text-3xl md:text-4xl font-black bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
                 {item.value}
