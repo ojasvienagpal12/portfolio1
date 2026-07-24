@@ -79,14 +79,16 @@ const clients = [
   },
 ];
 
-// Placeholder posters - User will add real poster images later
+// Creative posters
 const posters = [
-  { id: 1, title: "Poster 1", src: "/posters/poster1.jpg", color: "from-purple-500 to-pink-500" },
-  { id: 2, title: "Poster 2", src: "/posters/poster2.jpg", color: "from-pink-500 to-red-500" },
-  { id: 3, title: "Poster 3", src: "/posters/poster3.jpg", color: "from-red-500 to-orange-500" },
-  { id: 4, title: "Poster 4", src: "/posters/poster4.jpg", color: "from-orange-500 to-yellow-500" },
-  { id: 5, title: "Poster 5", src: "/posters/poster5.jpg", color: "from-green-500 to-teal-500" },
-  { id: 6, title: "Poster 6", src: "/posters/poster6.jpg", color: "from-teal-500 to-cyan-500" },
+  { id: 1, title: "JIET Jind", src: "/posters/jiet1.jpeg", color: "from-purple-500 to-pink-500" },
+  { id: 2, title: "JIET Jind", src: "/posters/jiet2.jpeg", color: "from-pink-500 to-red-500" },
+  { id: 3, title: "JIET Jind", src: "/posters/jiet3.jpeg", color: "from-red-500 to-orange-500" },
+  { id: 4, title: "JIET Jind", src: "/posters/jiet4.jpeg", color: "from-orange-500 to-yellow-500" },
+  { id: 5, title: "Rockland", src: "/posters/Rockland1.jpeg", color: "from-green-500 to-teal-500" },
+  { id: 6, title: "Rockland", src: "/posters/Rockland2.jpeg", color: "from-teal-500 to-cyan-500" },
+  { id: 7, title: "Rockland", src: "/posters/Rockland3.jpeg", color: "from-cyan-500 to-blue-500" },
+  { id: 8, title: "Rockland", src: "/posters/Rockland4.jpeg", color: "from-blue-500 to-indigo-500" },
 ];
 
 // Placeholder scripts - User will add real scripts later
@@ -299,14 +301,15 @@ export default function Skills() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.3, delay: index * 0.1 }}
-                    className="glass rounded-2xl overflow-hidden card-hover aspect-square"
+                    className="glass rounded-2xl overflow-hidden card-hover"
                   >
-                    <div className={`w-full h-full bg-gradient-to-br ${poster.color} flex items-center justify-center`}>
-                      <div className="text-center text-white">
-                        <Palette size={48} className="mx-auto mb-4" />
-                        <p className="font-bold">{poster.title}</p>
-                        <p className="text-sm opacity-75">Coming Soon</p>
-                      </div>
+                    <img
+                      src={poster.src}
+                      alt={poster.title}
+                      className="w-full h-auto object-cover"
+                    />
+                    <div className="p-3 text-center">
+                      <p className="font-bold text-white">{poster.title}</p>
                     </div>
                   </motion.div>
                 ))}
